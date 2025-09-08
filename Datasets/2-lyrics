@@ -1,0 +1,41 @@
+##--------------------  Exercise 1. Text mining --------------------##
+
+#install.packages("wordcloud") # https://cran.r-project.org/web/packages/wordcloud/wordcloud.pdf
+#install.packages("readxl")    # https://cran.r-project.org/web/packages/readxl/readxl.pdf
+#install.packages("tm")        # https://cran.r-project.org/web/packages/tm/vignettes/tm.pdf
+
+library(wordcloud)
+library(tm)
+library(RColorBrewer)
+
+
+# Text of lyrics
+golden <- readLines("2-lyrics.text", encoding = "UTF-8")
+
+# 1) Excel or others (not shown)
+# 2) R package: tm
+
+# Create a text corpus of Golden lyrics
+golden <- Corpus(VectorSource(golden))
+?Corpus
+
+# Clean the text
+golden <- tm_map(golden, content_transformer(tolower))       # lower case
+golden <- tm_map(golden, removePunctuation)                  # remove punctuation
+golden <- tm_map(golden, removeNumbers)                      # remove numbers
+golden <- tm_map(golden, removeWords, stopwords("english"))  # remove stop words
+
+# Create a term-document matrix
+tdm_golden <- TermDocumentMatrix(golden)
+mat_golden <- as.matrix(tdm_golden)
+word_freqs <- sort(rowSums(mat_golden), decreasing = TRUE)
+df <- data.frame(word = names(word_freqs), freq = word_freqs)
+
+# Generate the wordcloud
+set.seed(1234)
+wordcloud(words = df$word, 
+          freq = df$freq, 
+          min.freq = 1,
+          max.words = 100, 
+          random.order = FALSE, 
+          colors = brewer.pal(8, "Set3"))
