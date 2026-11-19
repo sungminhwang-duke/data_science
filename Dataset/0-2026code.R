@@ -1,3 +1,54 @@
+###############################  2025.11.17.  ###############################
+### 1
+set.seed(9)
+n <- 10
+x <- 1:100
+y <- seq(-3, 3, by=0.01)
+
+smps <- matrix(rnorm(n * length(x)), ncol=n)
+
+xbar <- apply(smps, 1, mean)
+se <- 1 / sqrt(10)
+alpha <- 0.05
+z <- qnorm(1 - alpha/2)
+low <- xbar - z * se
+upper <- xbar + z * se
+
+plot(y, type="n", xlab="표본추출", ylab="z", xlim=c(1, 100), ylim=c(-1.5, 1.5), cex.lab=1.8)
+abline(h=0, col="red", lwd=2, lty=2)
+l.c <- rep(NA, length(x))
+l.c <- ifelse(low * upper > 0, "red", "black")
+arrows(1:length(x), ll, 1:length(x), ul, code=3, angle=90, length=0.02, col=l.c, lwd=1.5)
+
+### 2
+
+
+# 모평균에 대한 추정(대표본의 경우)
+#install.packages(BSDA)
+library(BSDA)
+x=c(70, 40, 50, 30, 60, 50, 90, 40, 60, 60, 60, 80, 90, 90, 60, 30, 20,
+    120, 60, 50, 20, 60, 30, 120, 60, 30, 90, 20, 30, 40, 50, 40, 30, 
+    40, 20, 30, 60, 50, 60, 80)
+z.test(x, sigma.x = sd(x), conf.level = 0.95)
+
+x=c(80.5, 87.2, 88.4, 87.2, 87.6, 85.1, 86.1, 87.4, 88.2, 89.1)
+t.test(x, conf.level = 0.95)
+
+
+
+
+
+### 3
+height <- c(168,160,170,162,168,163,164,167,175,179,161,155)
+mean(height) # x=166
+sd(height) #s=6.6469
+# 95% 신뢰수준 a=0.05/2=0.025 
+# 학생 12명이므로 n=12, 즉, n-1=11
+# 1/a, n-1에 대한 t분포도 값인 2.201로 계산함!
+
+
+
+
 ################################  (3)  2026.9.17.  ################################
 
 
