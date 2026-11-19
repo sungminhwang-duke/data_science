@@ -18,7 +18,7 @@ plot(y, type="n", xlab="표본추출", ylab="z", xlim=c(1, 100), ylim=c(-1.5, 1.
 abline(h=0, col="red", lwd=2, lty=2)
 l.c <- rep(NA, length(x))
 l.c <- ifelse(low * upper > 0, "red", "black")
-arrows(1:length(x), ll, 1:length(x), ul, code=3, angle=90, length=0.02, col=l.c, lwd=1.5)
+arrows(1:length(x), low, 1:length(x), upper, code=3, angle=90, length=0.02, col=l.c, lwd=1.5)
 
 ### 2
 
